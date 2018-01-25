@@ -1,0 +1,219 @@
+<html>
+	<head>
+	<style>
+		body {
+			background: black;
+		}
+		.menu_item img{
+		    height: 76px;
+		    width: 74px;
+		    padding: 4px;
+		}
+
+		.dropdown_menu {
+		    -webkit-touch-callout: none;
+		    -webkit-user-select: none;
+		    -khtml-user-select: none;
+		    -moz-user-select: none;
+		    -ms-user-select: none;
+		    user-select: none;
+		    cursor: pointer;
+		    position: absolute;
+		    opacity: 0;
+		    right: 0px;
+		    visibility: hidden;
+		    display: block;
+		}
+		.opened{
+		    visibility:visible;
+		    -webkit-transform-origin: bottom right;
+		    -webkit-transition: ease-out 250ms;
+		    -moz-transform-origin: bottom right;
+		    -moz-transition: ease-out 250ms;
+		    -ms-transform-origin: bottom right;
+		    -ms-transition: ease-out 250ms;
+		    opacity: 1;
+		    position: absolute;
+		    margin-top: 2.1em;
+		    right: 0;
+		    transform: 100%;
+		}
+		.map_name {
+		    position: relative;
+		    float: left;
+		    font-size: 12pt;
+		    padding-left: 15px;
+		    margin-top: 5px;
+		}
+		.map_img img{
+		    height: 34px;
+		    display: inline-block;
+		    position: relative;
+		    float: left;
+		}
+		.title {
+		    text-align: center;
+		    font-size: 20pt;
+		}
+
+		.menu_item {
+		    position: relative;
+		    height: 83px;
+		    padding: 4px;
+		    margin: 4px;
+		}
+		.description {
+		    text-align: center;
+		    opacity: 0.6;
+		}
+		.item_img {
+		    float: left;
+		    padding-top: 0px;
+		}
+		.arrow:after {
+		    content: "▼";
+		    width: 0;
+		    height: 0;
+		    position: absolute;
+		    right: 16px;
+		    top: 50%;
+		    margin-top: -17px;
+		    border-width: 6px 0 6px 6px;
+		    border-style: solid;
+		    border-color: transparent;   
+		}
+		#checkBoxContainer > label {
+		    line-height: 0;
+		    cursor: pointer;
+		}
+		.headerLabelForCheckbox {
+		    font-size: 14pt;
+		}
+		.descriptionLabelForCheckbox {
+		    font-size: 8pt;
+		}
+		input[type=checkbox] {
+		    display: none;
+		}
+		.checkboxThree {
+		    width: 90px;
+		    height: 30px;
+		    background: #333;
+		    margin: 10px 20px;
+		    float: left;
+		    border-radius: 50px;
+		    position: relative;
+		}
+		.checkboxThree label {
+		    display: block;
+		    width: 20px;
+		    height: 20px;
+		    border-radius: 100px;
+
+		    transition: all .5s ease;
+		    position: absolute;
+		    top: 4.5px;
+		    z-index: 1;
+		    left: 6px;
+		    background: #ddd;
+		}
+
+		.checkboxThree input[type=checkbox]:checked + label {
+		    left: 60px;
+		    background: rgb(12, 132, 132);
+		}
+
+		.menu_item:hover {
+		    background:  linear-gradient(#ddd,#ddd),linear-gradient(#ddd,#ddd);
+		}
+
+		#menuBar {
+		    -webkit-touch-callout: none;
+		    -webkit-user-select: none;
+		    -khtml-user-select: none;
+		    -moz-user-select: none;
+		    -ms-user-select: none;
+		    user-select: none;
+		}
+		.disable {
+		    opacity: 0.2;
+		}
+	</style>
+	</head>
+	<body>
+		<div id="blockMenu" ng-mouseover="mainCtrl.event.showMenu()" ng-mouseleave="mainCtrl.event.hideMenu()">
+            <div id="menuBar">
+                <div style="height: 34px; width: 150x; background: rgba(255,255,255,.85); float: right;">
+                    <div class="arrow" style="position: relative; height: 34px; width: 150px;">
+                        <div class="menu">
+                            <div class="map_img">
+                                <img  id="menu_img" src="1.png">
+                            </div>
+                            <div class="map_name" value="Road">Road</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="dropdown_menu" id="dropdown" style="width: 296px; background: rgba(255,255,255,1); float: right; clear: right;">
+                <div class="drop_menu">
+                    <div class="menu_item" onclick="changeTitleOfMenu(this)">
+                        <div class="mapTypeIcon">
+                            <img class="item_img" src="1.png">
+                        </div>
+                        <div class="title" value="Road">
+                            Road
+                        </div>
+                        <div class="description">
+                            A standard road map
+                        </div>
+                    </div>
+                    <div class="menu_item" onclick="changeTitleOfMenu(this)">
+                        <div class="mapTypeIcon">
+                            <img class="item_img" src="2.png">
+                        </div>
+                        <div class="title" value="Aerial">
+                            Aerial
+                        </div>
+                        <div class="description">
+                            A detailed look from above
+                        </div>
+                    </div>
+                </div>
+                <div id="checkBoxContainer" class="" ng-click="mainCtrl.event.changeCheckBoxState($event)">
+                    <div class="checkboxThree">
+                        <input type="checkbox" value="1" id="checkboxThreeInput" name=""/>
+                        <label for="checkboxThreeInput"></label>
+                    </div>
+                    <label class="headerLabelForCheckbox">Labels</label>
+                    <label class="descriptionLabelForCheckbox">for Aerial and Bird's eye</label>
+                </div>
+            </div>
+        </div>
+		<script type="text/javascript">
+			function changeTitleOfMenu(elem) {
+				document.getElementById('dropdown').classList.remove('opened');
+				document.querySelectorAll('.map_name')[0].innerHTML = elem.querySelectorAll(".title")[0].innerHTML;
+			};
+			document.getElementById("blockMenu").addEventListener("mouseover", function(e) {
+				console.log("OVER", e);
+				document.getElementById('dropdown').classList.add('opened');
+			}, true);
+			document.getElementById("blockMenu").addEventListener("mouseout", function(e) {
+				console.log("OUT", e);
+				document.getElementById('dropdown').classList.remove('opened');
+			},true);
+			document.getElementById("dropdown").addEventListener("mouseover", function(e) {
+				console.log("OVER", e);
+				document.getElementById('dropdown').classList.add('opened');
+			}, true);
+			document.getElementById("dropdown").addEventListener("mouseout", function(e) {
+				console.log("OUT", e);
+				document.getElementById('dropdown').classList.remove('opened');
+			},true);
+			document.getElementById("checkBoxContainer").addEventListener("click", function(e) {
+				var checkbox = document.getElementById('checkboxThreeInput');
+				checkbox.checked = !checkbox.checked;
+			},true);
+		</script>
+	</body>
+</html>
